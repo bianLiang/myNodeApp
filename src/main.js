@@ -7,7 +7,7 @@ import 'font-awesome/css/font-awesome.css'
 import axios from 'axios'
 
 import 'muse-ui/lib/styles/base.less'
-import { Button, Helpers, Grid, BottomNav, Card, Avatar } from 'muse-ui'
+import { Button, Helpers, Grid, BottomNav, Card, Avatar, Progress, Snackbar, Icon} from 'muse-ui'
 import 'muse-ui/lib/styles/theme.less'
 
 Vue.use(Button)
@@ -16,6 +16,10 @@ Vue.use(Grid)
 Vue.use(BottomNav)
 Vue.use(Card)
 Vue.use(Avatar)
+Vue.use(Progress)
+Vue.use(Snackbar)
+Vue.use(Icon)
+
 
 
 Vue.config.productionTip = false

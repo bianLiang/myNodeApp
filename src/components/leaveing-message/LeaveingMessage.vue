@@ -9,7 +9,7 @@
             </transition>
         </div>
     </header>
-    <section>
+    <section  style="margin-bottom: 64px;">
         <div class="contentBox" v-for="(item, index) in leavingMessageList" :key="index">
             <div class="name">
                 <div class="iconBox">
@@ -37,6 +37,9 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
 import BottomNavigation from '../public-components/BottomNavigation'
+import 'muse-ui-loading/dist/muse-ui-loading.css'; // load css
+import Loading from 'muse-ui-loading';
+Vue.use(Loading);
 export default {
   name: 'LeaveingMessage',
   components: {BottomNavigation},
@@ -49,9 +52,13 @@ export default {
   },
   methods: {
     getLeavingmessageList () {
+      const loading = this.$loading({
+      overlayColor: 'hsla(0,0%,100%,.9)',// 背景色
+      });
       this.axios.get(`${this.axios.defaults.baseURL}/leavingmessage/list`).then((res) => {
         this.leavingMessageList = res.data.data
         this.leavingMessageList.reverse()
+        loading.close();
       })
     },
     show () {
@@ -138,13 +145,14 @@ export default {
   .iconBox {
       width: 2rem;
       height: 2rem;
-      border: 1px solid #444;
+      border: 1px solid #888;
       border-radius: 50%;
       text-align: center;
       line-height: 2rem;
   }
   .myIcon {
       font-size: 1rem;
+      color: #888;
   }
   .nameBox {
       font-size: 0.5rem;

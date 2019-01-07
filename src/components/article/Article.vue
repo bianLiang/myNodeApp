@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section>
+    <section style="margin-bottom: 64px;">
       <ArticleList></ArticleList>
     </section>
     <footer>

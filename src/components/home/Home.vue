@@ -39,6 +39,10 @@ export default {
       const backImgList = [1,2,3,4,5,6,7,8,9,10]
       const index = backImgList[Math.floor(Math.random()*backImgList.length)]
       this.backgroundPicture = "url(" + require("../../assets/img/back_"+index+".jpg") + ")"
+      const that = this
+      setTimeout(function(){
+        that.showTheme = true;
+      }, 1000)
     },
     goPage (url) {
       this.$router.push({ name: url})
@@ -48,11 +52,6 @@ export default {
     this.width = document.documentElement.clientWidth
     this.height = document.documentElement.clientHeight
     this.setBackImg()
-    const that = this
-    setTimeout(function(){
-      that.showTheme = true;
-    }, 1000)
-
   }
 
 }
