@@ -1,42 +1,5 @@
 <template>
-  <div id="box">
-    <!-- <mu-paper :z-depth="1" class="demo-loadmore-wrap"> -->
-        <!-- <mu-container ref="container" class="demo-loadmore-content">
-          <mu-load-more @refresh="refresh" :refreshing="refreshing" :loading="loading" @load="load">
-            <mu-list>
-              <template v-for="i in num">
-                <mu-list-item>
-                  <mu-list-item-title>{{text}} Item {{i}}</mu-list-item-title>
-                </mu-list-item>
-                <mu-divider />
-              </template>
-            </mu-list>
-          </mu-load-more>
-        </mu-container> -->
-
-        <!-- <mu-container>
-          <mu-load-more @refresh="refresh" :refreshing="refreshing" :loading="loading" @load="load">
-            <mu-list>
-              <template v-for="article in ArticleList" style="margin: 7px 0;">
-                    <mu-card style="width: 100%; max-width: 375px; margin: 0 auto;">
-                      <mu-card-media :title="article.title" :sub-title="article.author">
-                        <div class="titleImg">
-                          <div class="photo-bg" id="head-portrait" :style="{backgroundImage: 'url(' + article.imgurl + ')'}" ></div>
-                        </div>
-                      </mu-card-media>
-                      <mu-card-text>
-                        <div>{{ article.content }}</div>
-                      </mu-card-text>
-                      <mu-card-actions>
-                        <mu-button flat>查看全文</mu-button>
-                        <input type="file" @change="addImg(article.id)">
-                      </mu-card-actions>
-                    </mu-card>
-              </template>
-            </mu-list>
-          </mu-load-more>
-      </mu-container>
-    </mu-paper> -->
+  <div id="box" @scroll="handleScroll">
     <mu-container v-for="article in ArticleList" :key="article.id" style="margin: 7px 0;">
       <mu-card style="width: 100%; max-width: 375px; margin: 0 auto;">
         <mu-card-media :title="article.title" :sub-title="article.author">
@@ -46,20 +9,18 @@
           </div>
         </mu-card-media>
         <mu-card-text>
-          <div>{{ article.content }}</div>
+          <div>{{ article.guide_reading }}</div>
         </mu-card-text>
         <mu-card-actions>
-          <mu-button flat>查看全文</mu-button>
-          <input type="file" @change="addImg(article.id)">
-          <button @click="fullscreen()">加载</button>
+          <mu-button flat @click="goPage('Details', article.id)">查看全文</mu-button>
+          <!-- <input type="file" @change="addImg(article.id)"> -->
         </mu-card-actions>
       </mu-card>
     </mu-container>
-    <!-- <div v-loading="true" data-mu-loading-overlay-color="rgba(0, 0, 0, .6)" style="position: relative; width: 500px; height: 400px;"></div> -->
   </div>
 </template>
 <script>
-import 'muse-ui-loading/dist/muse-ui-loading.css'; // load css
+import 'muse-ui-loading/dist/muse-ui-loading.css';
 import Vue from 'vue';
 import Loading from 'muse-ui-loading';
 Vue.use(Loading);
@@ -97,19 +58,14 @@ export default {
           };
           this.ArticleList.reverse()
         } else {
-          this.$toast.message('已经是全部数据');
+          this.$toast.message('已经是全部数据')
           this.sign++
         }
-        loading.close();
+        if (loading) {
+          loading.close()
+        }
+
       })
-    },
-    fullscreen () {
-      const loading = this.$loading({
-      overlayColor: 'hsla(0,0%,100%,.9)',// 背景色
-      });
-      setTimeout(() => {
-        loading.close();
-      }, 2000)
     },
     // 压缩base64图片
     convertImgToBase64 (url, callback, outputFormat) {
@@ -164,13 +120,17 @@ export default {
         if(top + clientHeight - 71 == scrollHeight){
           this.getArticleList();
         }
+    },
+    goPage(url, id) {
+      this.$router.push({ name: url, query:{id: id}})
     }
   },
   beforeMount () {
     this.getArticleList()
   },
   destroyed: function () {
-    window.removeEventListener('scroll', this.handleScroll);   //  离开页面清除（移除）滚轮滚动事件
+    const that = this
+    window.removeEventListener('scroll', that.handleScroll, true);   //  离开页面清除（移除）滚轮滚动事件
   }
 }
 </script>

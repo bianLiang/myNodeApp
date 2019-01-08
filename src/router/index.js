@@ -4,6 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 import Home from '@/components/home/Home'
 import LeaveingMessage from '@/components/leaveing-message/LeaveingMessage'
 import Article from '@/components/article/Article'
+import Details from '@/components/article/Details'
 import Music from '@/components/music/Music'
 import Center from '@/components/center/Center'
 
@@ -31,6 +32,11 @@ export default new Router({
       path: '/article',
       name: 'Article',
       component: Article
+    },
+    {
+      path: '/details',
+      name: 'Details',
+      component: Details
     },
     {
       path: '/music',
