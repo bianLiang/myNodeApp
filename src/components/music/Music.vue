@@ -1,6 +1,30 @@
 <template>
   <div>
-    这是音乐
+    <section class="musicBack" v-bind:style="{ height: height + 'px', width: width + 'px'}">
+      <div>
+        <audio id="musicBox">
+            <source src="../../assets/muisc/周杰伦-告白气球.mp3"></source>
+        </audio>
+      </div>
+      <div class="musicFrame" v-bind:style="{ width: width - 85 + 'px',backgroundImage: 'url(' + require('../../assets/img/back_7.jpg') + ')'}">
+        <div class="FloatingLayer">
+          <div class="tapeBox" :style="{transform :'rotate(' + angle+ 'deg)'}">
+            <div class="tapeImg" v-bind:style="{backgroundImage: 'url(' + require('../../assets/img/back_7.jpg') + ')'}"></div>
+          </div>
+          <div class="operation">
+            <div>
+              <sapn style="font-size: 16px;">告白气球</sapn> <br/>
+              <sapn style="font-size: 12px;">周杰伦</sapn>
+            </div>
+            <div>
+              <i class="fa fa-backward"></i>
+              <i class="fa" @click="startAndStop" v-bind:class="[isActive ? 'fa-pause' : 'fa-play']" style="margin:0 10px;"></i>
+              <i class="fa fa-forward"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
     <footer>
       <BottomNavigation  BottomNav="music"></BottomNavigation>
     </footer>
@@ -8,24 +32,106 @@
 </template>
 <script>
 import BottomNavigation from '../public-components/BottomNavigation'
+import { setInterval } from 'timers';
 export default {
   name: 'Music',
   components: {BottomNavigation},
   data () {
     return {
-
+      musicBox: null,
+      width: null,
+      height: null,
+      angle: 0,
+      timer: null,
+      isActive: false
     }
   },
+  mounted: function () {
+    this.musicBox = document.getElementById("musicBox")
+  },
   methods: {
-
+    startAndStop () {
+      const that = this
+      // var time = null
+      if(that.musicBox.paused) {
+        that.isActive = !that.isActive
+        that.musicBox.play()
+        that.timer = window.setInterval(() => {
+          if (that.angle === 360) {
+            that.angle = 0
+          } else {
+            that.angle++
+          }
+        }, 50)
+      }else{
+        that.isActive = !that.isActive
+        that.musicBox.pause()
+        window.clearInterval(that.timer)
+      }
+    }
   },
   beforeMount () {
-
+    this.width = document.documentElement.clientWidth
+    this.height = document.documentElement.clientHeight
   }
 
 }
 </script>
 <style scoped>
-
+  .musicBack {
+    background-color: #00474f;
+    padding-top: 100px;
+  }
+  .musicFrame {
+    height: 100px;
+    border-radius: 10px;
+    background-color: beige;
+    margin: 0 auto;
+    background-repeat: no-repeat;
+    background-position: center;
+    /* -webkit-filter: blur(1.5px);
+    filter: blur(1.5px); */
+    -moz-box-shadow:1px 0px 10px #000;
+    -webkit-box-shadow:1px 0px 10px #000;
+    box-shadow:1px 0px 10px #000;
+  }
+  .FloatingLayer {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    background-color: rgba(0,0,0,0.5);
+    position: relative;
+  }
+  .tapeBox {
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    background-color: #000;
+    position:absolute;
+    top: 10px;
+    left: 20px;
+  }
+  .tapeImg {
+    height: 55px;
+    width: 55px;
+    border-radius: 50%;
+    background-color: #000;
+    background-repeat: no-repeat;
+    margin: 5px auto;
+    background-size:100% 100%;
+    -moz-background-size:100% 100%;
+    position:absolute;
+    top: 3px;
+    left: 8px;
+  }
+  .operation {
+    position:absolute;
+    height: 60px;
+    width: 190px;
+    color: #fff;
+    /* border: 1px solid #fff; */
+    top: 5px;
+    left: 97px;
+  }
 </style>
 

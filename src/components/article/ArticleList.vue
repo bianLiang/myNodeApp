@@ -56,7 +56,7 @@ export default {
             this.index++
             this.sign = this.index
           };
-          this.ArticleList.reverse()
+          // this.ArticleList.reverse()
         } else {
           this.$toast.message('已经是全部数据')
           this.sign++

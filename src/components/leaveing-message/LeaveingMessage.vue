@@ -3,7 +3,7 @@
     <header>
         <div class="inputBox">
             <input v-model="inputContent" type="text" class="form-control" @keyup="show()" placeholder="留个言吧...">
-            <button class="btn btn-default" v-on:click="Submission()">留言</button>
+            <button class="btn btn-default" style="background-color: #08979c;color: #fff;" v-on:click="Submission()">留言</button>
             <transition name="fade">
                 <div v-if="showInputContent">{{ inputContent }}</div>
             </transition>
@@ -134,7 +134,7 @@ export default {
       position: absolute;
       width: 100%;
       padding: 2rem;
-      background: #f4ffb8;
+      background: #b5f5ec;
   }
   .contentBox {
       background: #fff;
