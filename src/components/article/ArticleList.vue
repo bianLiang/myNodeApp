@@ -1,22 +1,22 @@
 <template>
-  <div id="box" @scroll="handleScroll">
-    <mu-container v-for="article in ArticleList" :key="article.id" style="margin: 7px 0;">
-      <mu-card style="width: 100%; max-width: 375px; margin: 0 auto;">
-        <mu-card-media :title="article.title" :sub-title="article.author">
-          <div class="titleImg">
-            <!-- <div class="photo-bg" id="head-portrait" :style="{backgroundImage: 'url(' + require('../../assets/img/'+ Imgs) + ')'}" ></div> -->
-            <div class="photo-bg" id="head-portrait" :style="{backgroundImage: 'url(' + article.imgurl + ')'}" ></div>
-          </div>
-        </mu-card-media>
-        <mu-card-text>
-          <div>{{ article.guide_reading }}</div>
-        </mu-card-text>
-        <mu-card-actions>
-          <mu-button flat @click="goPage('Details', article.id)">查看全文</mu-button>
-          <!-- <input type="file" @change="addImg(article.id)"> -->
-        </mu-card-actions>
-      </mu-card>
-    </mu-container>
+  <div id="box">
+      <mu-container v-for="article in ArticleList" :key="article.id" style="margin: 7px 0;">
+        <mu-card style="width: 100%; max-width: 375px; margin: 0 auto;">
+          <mu-card-media :title="article.title" :sub-title="article.author">
+            <div class="titleImg">
+              <!-- <div class="photo-bg" id="head-portrait" :style="{backgroundImage: 'url(' + require('../../assets/img/'+ Imgs) + ')'}" ></div> -->
+              <div class="photo-bg" id="head-portrait" :style="{backgroundImage: 'url(' + article.imgurl + ')'}" ></div>
+            </div>
+          </mu-card-media>
+          <mu-card-text>
+            <div>{{ article.guide_reading }}</div>
+          </mu-card-text>
+          <mu-card-actions>
+            <mu-button flat @click="goPage('Details', article.id)">查看全文</mu-button>
+            <!-- <input type="file" @change="addImg(article.id)"> -->
+          </mu-card-actions>
+        </mu-card>
+      </mu-container>
   </div>
 </template>
 <script>
@@ -24,7 +24,6 @@ import 'muse-ui-loading/dist/muse-ui-loading.css';
 import Vue from 'vue';
 import Loading from 'muse-ui-loading';
 Vue.use(Loading);
-
 import Toast from 'muse-ui-toast';
 Vue.use(Toast);
 export default {
@@ -34,13 +33,32 @@ export default {
       Imgs: 'back_2.jpg',
       ArticleList: [],
       index: 0,
-      sign: 0
+      sign: 0,
+      scroll: null,
+      aBScroll: null
     }
   },
   mounted: function () {
-    window.addEventListener('scroll', this.handleScroll, true);  // 监听（绑定）滚轮滚动事件
+    // window.addEventListener('scroll', this.handleScroll, true);  // 监听（绑定）滚轮滚动事件
+    this.addEventListeners(window, 'scroll', this.handleScroll)
   },
   methods: {
+    addEventListeners(ele,type,callback){
+      if(ele.addEventListener){
+        ele.addEventListener(type,callback,true);
+      }else if(ele.attachEvent){
+        ele.attachEvent('on' + type,callback);
+      }else{
+        ele['on' + type] = callback;
+      }
+    },
+    removeEventListener(ele,type,callback){
+      if(ele.removeEventListener){
+          ele.removeEventListener(type,callback,false);
+      }else{
+          ele.detachEvent('on'+type,callback.bind(ele));
+      }
+    },
     getArticleList () {
       const that = this
       var loading;
@@ -127,10 +145,12 @@ export default {
   },
   beforeMount () {
     this.getArticleList()
+
   },
   destroyed: function () {
     const that = this
-    window.removeEventListener('scroll', that.handleScroll, true);   //  离开页面清除（移除）滚轮滚动事件
+    // window.removeEventListener('scroll', that.handleScroll, true);   //  离开页面清除（移除）滚轮滚动事件
+    that.removeEventListener(window, 'scroll', that.handleScroll)
   }
 }
 </script>
@@ -141,6 +161,7 @@ export default {
     background-repeat:no-repeat;
     background-size:100% 100%;
     -moz-background-size:100% 100%;
+
   }
   .photo-bg {
     width:100%;

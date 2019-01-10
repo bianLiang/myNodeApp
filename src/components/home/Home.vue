@@ -12,10 +12,10 @@
           </mu-flex>
           <mu-flex class="mu-transition-row" justify-content="center">
             <mu-slide-left-transition>
-              <div class="mu-transition-box mu-primary-color mu-inverse" v-show="showTheme">音乐</div>
+              <div class="mu-transition-box mu-primary-color mu-inverse" @click="goPage('Music')" v-show="showTheme">音乐</div>
             </mu-slide-left-transition>
             <mu-slide-right-transition>
-              <div class="mu-transition-box mu-primary-color mu-inverse" v-show="showTheme">我的</div>
+              <div class="mu-transition-box mu-primary-color mu-inverse" @click="goPage('Center')" v-show="showTheme">我的</div>
             </mu-slide-right-transition>
           </mu-flex>
         </mu-container>
@@ -39,10 +39,13 @@ export default {
       const backImgList = [1,2,3,4,5,6,7,8,9,10]
       const index = backImgList[Math.floor(Math.random()*backImgList.length)]
       this.backgroundPicture = "url(" + require("../../assets/img/back_"+index+".jpg") + ")"
-      const that = this
-      setTimeout(function(){
-        that.showTheme = true;
-      }, 1000)
+      if (this.backgroundPicture) {
+        const that = this
+        setTimeout(function(){
+          that.showTheme = true;
+        }, 1300)
+      }
+
     },
     goPage (url) {
       this.$router.push({ name: url})

@@ -21,6 +21,14 @@ Vue.use(Snackbar)
 Vue.use(Icon)
 
 
+import VueTouch from 'vue-touch'
+Vue.use(VueTouch, {name: 'v-touch'})
+
+// import mobileEvent from './assets/js/customize-mobile-events.js'
+// import {arrayContain} from '../../js/utils';
+// Vue.prototype.$mobileEvent = mobileEvent
+
+
 
 Vue.config.productionTip = false
 // 配置不同环境的请求路径

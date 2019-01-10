@@ -1,7 +1,7 @@
 <template>
   <div>
-    <input type="file" id="file" @change="upload">
-    <button class="btn btn-primary" @click="goback">返回上一页</button>
+    <!-- <input type="file" id="file" @change="upload"> -->
+    <button class="btn btn-default" @click="goback">返回上一页</button>
     <section>
       <div v-html="ArticleHtml">
       </div>
